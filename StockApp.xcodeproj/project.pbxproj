@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		045A88ED2788310500E976A4 /* APICallsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045A88EC2788310500E976A4 /* APICallsManager.swift */; };
+		045A88EF2788311E00E976A4 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045A88EE2788311E00E976A4 /* PersistenceManager.swift */; };
+		045A88F12788313300E976A4 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045A88F02788313300E976A4 /* HapticsManager.swift */; };
 		04C5E1CC2786BE0E00782582 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C5E1CB2786BE0E00782582 /* AppDelegate.swift */; };
 		04C5E1CE2786BE0E00782582 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C5E1CD2786BE0E00782582 /* SceneDelegate.swift */; };
 		04C5E1D02786BE0E00782582 /* WatchListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C5E1CF2786BE0E00782582 /* WatchListViewController.swift */; };
@@ -18,6 +21,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		045A88EC2788310500E976A4 /* APICallsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICallsManager.swift; sourceTree = "<group>"; };
+		045A88EE2788311E00E976A4 /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
+		045A88F02788313300E976A4 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
 		04C5E1C82786BE0E00782582 /* StockApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StockApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04C5E1CB2786BE0E00782582 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04C5E1CD2786BE0E00782582 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -41,6 +47,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		045A88EB278830B300E976A4 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				045A88EC2788310500E976A4 /* APICallsManager.swift */,
+				045A88EE2788311E00E976A4 /* PersistenceManager.swift */,
+				045A88F02788313300E976A4 /* HapticsManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
 		04C5E1BF2786BE0E00782582 = {
 			isa = PBXGroup;
 			children = (
@@ -60,6 +76,7 @@
 		04C5E1CA2786BE0E00782582 /* StockApp */ = {
 			isa = PBXGroup;
 			children = (
+				045A88EB278830B300E976A4 /* Manager */,
 				04C5E1E22786C20600782582 /* Other */,
 				04C5E1E12786C1E000782582 /* Views */,
 				04C5E1E02786C1D400782582 /* Controllers */,
@@ -175,8 +192,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				045A88F12788313300E976A4 /* HapticsManager.swift in Sources */,
+				045A88ED2788310500E976A4 /* APICallsManager.swift in Sources */,
 				04C5E1D02786BE0E00782582 /* WatchListViewController.swift in Sources */,
 				04C5E1E92786C2BD00782582 /* SearchResultsViewController.swift in Sources */,
+				045A88EF2788311E00E976A4 /* PersistenceManager.swift in Sources */,
 				04C5E1E42786C26900782582 /* TopStoriesNewsViewController.swift in Sources */,
 				04C5E1CC2786BE0E00782582 /* AppDelegate.swift in Sources */,
 				04C5E1E72786C28700782582 /* StockDetailsViewController.swift in Sources */,
