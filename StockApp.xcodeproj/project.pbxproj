@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0452A570278A472200178ED2 /* SearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0452A56F278A472200178ED2 /* SearchResponse.swift */; };
 		045A88ED2788310500E976A4 /* APICallsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045A88EC2788310500E976A4 /* APICallsManager.swift */; };
 		045A88EF2788311E00E976A4 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045A88EE2788311E00E976A4 /* PersistenceManager.swift */; };
 		045A88F12788313300E976A4 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045A88F02788313300E976A4 /* HapticsManager.swift */; };
+		0487C4E92788D866003B0464 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0487C4E82788D866003B0464 /* Extensions.swift */; };
+		0487C4EC2788DAD4003B0464 /* SearchResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0487C4EB2788DAD4003B0464 /* SearchResultTableViewCell.swift */; };
 		04C5E1CC2786BE0E00782582 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C5E1CB2786BE0E00782582 /* AppDelegate.swift */; };
 		04C5E1CE2786BE0E00782582 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C5E1CD2786BE0E00782582 /* SceneDelegate.swift */; };
 		04C5E1D02786BE0E00782582 /* WatchListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C5E1CF2786BE0E00782582 /* WatchListViewController.swift */; };
@@ -21,9 +24,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0452A56F278A472200178ED2 /* SearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResponse.swift; sourceTree = "<group>"; };
 		045A88EC2788310500E976A4 /* APICallsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICallsManager.swift; sourceTree = "<group>"; };
 		045A88EE2788311E00E976A4 /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
 		045A88F02788313300E976A4 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
+		0487C4E82788D866003B0464 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		0487C4EB2788DAD4003B0464 /* SearchResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultTableViewCell.swift; sourceTree = "<group>"; };
 		04C5E1C82786BE0E00782582 /* StockApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StockApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04C5E1CB2786BE0E00782582 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04C5E1CD2786BE0E00782582 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -55,6 +61,14 @@
 				045A88F02788313300E976A4 /* HapticsManager.swift */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		0487C4EA2788DAAF003B0464 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				0487C4EB2788DAD4003B0464 /* SearchResultTableViewCell.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		04C5E1BF2786BE0E00782582 = {
@@ -89,6 +103,7 @@
 		04C5E1DF2786C1C800782582 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0452A56F278A472200178ED2 /* SearchResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -107,6 +122,7 @@
 		04C5E1E12786C1E000782582 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0487C4EA2788DAAF003B0464 /* Search */,
 				04C5E1D62786BE1100782582 /* LaunchScreen.storyboard */,
 			);
 			path = Views;
@@ -118,6 +134,7 @@
 				04C5E1CB2786BE0E00782582 /* AppDelegate.swift */,
 				04C5E1CD2786BE0E00782582 /* SceneDelegate.swift */,
 				04C5E1D42786BE1100782582 /* Assets.xcassets */,
+				0487C4E82788D866003B0464 /* Extensions.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -193,11 +210,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				045A88F12788313300E976A4 /* HapticsManager.swift in Sources */,
+				0487C4EC2788DAD4003B0464 /* SearchResultTableViewCell.swift in Sources */,
 				045A88ED2788310500E976A4 /* APICallsManager.swift in Sources */,
 				04C5E1D02786BE0E00782582 /* WatchListViewController.swift in Sources */,
 				04C5E1E92786C2BD00782582 /* SearchResultsViewController.swift in Sources */,
 				045A88EF2788311E00E976A4 /* PersistenceManager.swift in Sources */,
+				0487C4E92788D866003B0464 /* Extensions.swift in Sources */,
 				04C5E1E42786C26900782582 /* TopStoriesNewsViewController.swift in Sources */,
+				0452A570278A472200178ED2 /* SearchResponse.swift in Sources */,
 				04C5E1CC2786BE0E00782582 /* AppDelegate.swift in Sources */,
 				04C5E1E72786C28700782582 /* StockDetailsViewController.swift in Sources */,
 				04C5E1CE2786BE0E00782582 /* SceneDelegate.swift in Sources */,

@@ -8,9 +8,12 @@
 import UIKit
 
 class StockDetailsViewController: UIViewController {
+    
+    var stockModel: SearchResult?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
     }
     
 }
