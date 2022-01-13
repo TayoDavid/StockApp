@@ -35,6 +35,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {}
 
-    public func debug() {}
+    public func debug() {
+//        APICallsManager.shared.news(for: .company(symbol: "MSFT")) { result in
+//            print(result)
+//        }
+    }
 }
 
