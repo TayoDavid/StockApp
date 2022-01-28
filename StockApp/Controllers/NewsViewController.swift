@@ -6,14 +6,12 @@
 //
 
 import UIKit
+import SafariServices
 
 class NewsViewController: UIViewController {
     
     // MARK: - Properties
     private var stories = [NewsModel]()
-//    private var stories = [
-//        NewsModel(category: "General", datetime: "January 13, 2022" , headline: "The headline of this news is the apple content team", image: "", related: "", source: "CNBC", summary: "", url: "")
-//    ]
     
     private let type: NewsType
     
@@ -74,11 +72,22 @@ class NewsViewController: UIViewController {
     }
     
     private func fetchNews() {
-        
+        APICallsManager.shared.news(for: self.type) { result in
+            switch result {
+                case .success(let stories):
+                    DispatchQueue.main.async {
+                        self.stories = stories
+                        self.tableView.reloadData()
+                    }
+                case .failure(let error):
+                    print(error)
+            }
+        }
     }
     
     private func open(url: URL) {
-        
+        let vc = SFSafariViewController(url: url)
+        present(vc, animated: true)
     }
 }
 
@@ -100,17 +109,32 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         // Open news story
+        let story = stories[indexPath.row]
+        guard let url = URL(string: story.url) else {
+            presentFailedToOpenAlert()
+            return
+        }
+        open(url: url)
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: NewsHeaderView.identifier)
                 as? NewsHeaderView else { return nil }
-        headerView.configure(with: .init(title: self.type.title, shouldShowAddButton: true))
+        headerView.configure(with: .init(title: self.type.title, shouldShowAddButton: false))
         return headerView
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return NewsHeaderView.preferedHeight
+    }
+    
+    private func presentFailedToOpenAlert() {
+        let alert = UIAlertController(
+            title: "Unable to Open URL",
+            message: "We were unable to open the article.",
+            preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
     
 }

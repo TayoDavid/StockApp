@@ -37,7 +37,9 @@ class NewsStoryTableViewCell: UITableViewCell {
     private let headlineLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 20, weight: .regular)
+        label.font = .systemFont(ofSize: 18, weight: .regular)
+        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        label.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         label.numberOfLines = 0
         return label
     }()
@@ -74,35 +76,27 @@ class NewsStoryTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        let imageSize: CGFloat = contentView.height - 8
+        let imageSize: CGFloat = contentView.height - 12
         let margins = contentView.layoutMarginsGuide
         
         NSLayoutConstraint.activate([
             storyImage.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: 12),
             storyImage.widthAnchor.constraint(equalToConstant: imageSize),
             storyImage.heightAnchor.constraint(equalToConstant: imageSize),
-            storyImage.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 4),
+            storyImage.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 6),
             
-            sourceLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 4),
+            sourceLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 6),
             sourceLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 8),
             sourceLabel.trailingAnchor.constraint(equalTo: storyImage.leadingAnchor, constant: -8),
             
             headlineLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 8),
-            headlineLabel.topAnchor.constraint(equalTo: sourceLabel.bottomAnchor, constant: 8),
+            headlineLabel.topAnchor.constraint(equalTo: sourceLabel.bottomAnchor, constant: 4),
             headlineLabel.trailingAnchor.constraint(equalTo: storyImage.leadingAnchor, constant: -8),
             
-            dateLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -4),
+            dateLabel.topAnchor.constraint(equalTo: headlineLabel.bottomAnchor, constant: 16),
+            dateLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -8),
             dateLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 8)
         ])
-        
-//        sourceLabel.sizeToFit()
-//        headlineLabel.sizeToFit()
-//        storyImage.frame = CGRect(x: contentView.width - imageSize - 16, y: 4, width: imageSize, height: imageSize)
-//        dateLabel.frame = CGRect(x: separatorInset.left, y: contentView.height - 40, width: availableWidth, height: 40)
-//        sourceLabel.frame = CGRect(x: separatorInset.left, y: 4, width: availableWidth, height: sourceLabel.height)
-//        headlineLabel.frame = CGRect(x: separatorInset.left, y: sourceLabel.bottom + 4, width: availableWidth, height: headlineLabel.height)
-//
-        // contentView.height - sourceLabel.bottom - dateLabel.height - 10
     }
     
     override func prepareForReuse() {

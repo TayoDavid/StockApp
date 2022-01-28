@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0452A570278A472200178ED2 /* SearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0452A56F278A472200178ED2 /* SearchResponse.swift */; };
+		0459E388279FCE4600E4BF9F /* MarketDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459E387279FCE4600E4BF9F /* MarketDataResponse.swift */; };
+		0459E38B279FEA4C00E4BF9F /* WatchlistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459E38A279FEA4C00E4BF9F /* WatchlistTableViewCell.swift */; };
+		0459E38D279FEC7600E4BF9F /* StockChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0459E38C279FEC7600E4BF9F /* StockChartView.swift */; };
 		045A88ED2788310500E976A4 /* APICallsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045A88EC2788310500E976A4 /* APICallsManager.swift */; };
 		045A88EF2788311E00E976A4 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045A88EE2788311E00E976A4 /* PersistenceManager.swift */; };
 		045A88F12788313300E976A4 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045A88F02788313300E976A4 /* HapticsManager.swift */; };
@@ -30,6 +33,9 @@
 
 /* Begin PBXFileReference section */
 		0452A56F278A472200178ED2 /* SearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResponse.swift; sourceTree = "<group>"; };
+		0459E387279FCE4600E4BF9F /* MarketDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDataResponse.swift; sourceTree = "<group>"; };
+		0459E38A279FEA4C00E4BF9F /* WatchlistTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchlistTableViewCell.swift; sourceTree = "<group>"; };
+		0459E38C279FEC7600E4BF9F /* StockChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockChartView.swift; sourceTree = "<group>"; };
 		045A88EC2788310500E976A4 /* APICallsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICallsManager.swift; sourceTree = "<group>"; };
 		045A88EE2788311E00E976A4 /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
 		045A88F02788313300E976A4 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
@@ -66,6 +72,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0459E389279FEA2700E4BF9F /* Watchlist */ = {
+			isa = PBXGroup;
+			children = (
+				0459E38A279FEA4C00E4BF9F /* WatchlistTableViewCell.swift */,
+				0459E38C279FEC7600E4BF9F /* StockChartView.swift */,
+			);
+			path = Watchlist;
+			sourceTree = "<group>";
+		};
 		045A88EB278830B300E976A4 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
@@ -120,6 +135,7 @@
 			children = (
 				0452A56F278A472200178ED2 /* SearchResponse.swift */,
 				0483B466278E27DC0031A9F2 /* NewsModel.swift */,
+				0459E387279FCE4600E4BF9F /* MarketDataResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -139,6 +155,7 @@
 		04C5E1E12786C1E000782582 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0459E389279FEA2700E4BF9F /* Watchlist */,
 				04CCA1EC278EA8D900F03D32 /* News */,
 				0487C4EA2788DAAF003B0464 /* Search */,
 				04C5E1D62786BE1100782582 /* LaunchScreen.storyboard */,
@@ -298,6 +315,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				045A88F12788313300E976A4 /* HapticsManager.swift in Sources */,
+				0459E38B279FEA4C00E4BF9F /* WatchlistTableViewCell.swift in Sources */,
 				0487C4EC2788DAD4003B0464 /* SearchResultTableViewCell.swift in Sources */,
 				04CCA1EE278EA90800F03D32 /* NewsStoryTableViewCell.swift in Sources */,
 				045A88ED2788310500E976A4 /* APICallsManager.swift in Sources */,
@@ -305,6 +323,7 @@
 				04C5E1E92786C2BD00782582 /* SearchResultsViewController.swift in Sources */,
 				045A88EF2788311E00E976A4 /* PersistenceManager.swift in Sources */,
 				04C1AEDB278C68B900D46E74 /* NewsHeaderView.swift in Sources */,
+				0459E38D279FEC7600E4BF9F /* StockChartView.swift in Sources */,
 				04C1AED9278C5F2500D46E74 /* NewsViewController.swift in Sources */,
 				0487C4E92788D866003B0464 /* Extensions.swift in Sources */,
 				0483B467278E27DC0031A9F2 /* NewsModel.swift in Sources */,
@@ -312,6 +331,7 @@
 				0452A570278A472200178ED2 /* SearchResponse.swift in Sources */,
 				04C5E1CC2786BE0E00782582 /* AppDelegate.swift in Sources */,
 				04C5E1E72786C28700782582 /* StockDetailsViewController.swift in Sources */,
+				0459E388279FCE4600E4BF9F /* MarketDataResponse.swift in Sources */,
 				04C5E1CE2786BE0E00782582 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

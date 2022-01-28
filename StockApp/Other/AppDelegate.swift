@@ -36,8 +36,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {}
 
     public func debug() {
-//        APICallsManager.shared.news(for: .company(symbol: "MSFT")) { result in
-//            print(result)
+//        APICallsManager.shared.marketData(for: "AAPL") { result in
+//            switch result {
+//                case .success(let data):
+//                    let candlesticks = data.candleSticks
+//                case .failure(let error):
+//                    print(error)
+//            }
 //        }
     }
 }

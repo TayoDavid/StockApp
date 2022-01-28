@@ -17,48 +17,9 @@ final class APICallsManager {
         static let baseUrl = "https://finnhub.io/api/v1/"
         
         static let day: TimeInterval = 3600 * 24
-    }
-    
-//    private init() {}
-    
-    // MARK: - Public
-    
-    public func search(query: String, completion: @escaping(Result<SearchResponse, Error>) -> Void) {
-        guard let safeQuery = query.addingPercentEncoding(
-            withAllowedCharacters: .urlQueryAllowed) else { return }
+        static let today = Date()
+        static let oneMonthBack = today.addingTimeInterval(-(Constants.day * 30))
         
-        request(
-            url: url(for: .search, queryParams: ["q" : safeQuery]),
-            expecting: SearchResponse.self,
-            completion: completion
-        )
-    }
-    
-    public func news(for type: NewsViewController.NewsType, completion: @escaping (Result<[NewsModel], Error>) -> Void) {
-        switch type {
-            case .topStories:
-                request(
-                    url: url(for: .topStories, queryParams: ["category" : "general"]),
-                    expecting: [NewsModel].self,
-                    completion: completion
-                )
-            case .company(let symbol):
-                let today = Date()
-                let oneMonthBack = today.addingTimeInterval(-(Constants.day * 30))
-                request(
-                    url: url(
-                        for: .companyNews,
-                        queryParams: [
-                            "symbol": symbol,
-                            "from": DateFormatter.prettyDateFormatter.string(from: oneMonthBack),
-                            "to": DateFormatter.prettyDateFormatter.string(from: today)
-                        ]
-                    ),
-                    expecting: [NewsModel].self,
-                    completion: completion
-                )
-                
-        }
     }
 
     // MARK: - Private
@@ -67,6 +28,7 @@ final class APICallsManager {
         case search
         case topStories = "news"
         case companyNews = "company-news"
+        case marketData = "stock/candle"
     }
     
     private enum APIError: Error {
@@ -77,18 +39,21 @@ final class APICallsManager {
     private func url(for endpoint: Endpoint, queryParams: [String: String] = [:]) -> URL? {
         var urlString = Constants.baseUrl + endpoint.rawValue
         var queryItems = [URLQueryItem]()
-        // Add token
-        queryItems.append(.init(name: "token", value: Constants.apiKey))
+        
         // Add any param if available
         for (name, value) in queryParams {
             queryItems.append(.init(name: name, value: value))
         }
+        
+        // Add token
+        queryItems.append(.init(name: "token", value: Constants.apiKey))
+        
         // Convert query items to suffix string
         let queryString = queryItems.map { "\($0.name)=\($0.value ?? "")" }.joined(separator: "&")
         
         urlString += "?" + queryString
 
-//        print("\n\(urlString)\n")
+//        print("\n\(urlString)\n")       // REMOVE THIS LATER
         
         return URL(string: urlString)
     }
@@ -98,7 +63,6 @@ final class APICallsManager {
         expecting: T.Type,
         completion: @escaping (Result<T, Error>) -> Void
     ) {
-        
         guard let url = url else {
             completion(.failure(APIError.invalidUrl))
             return
@@ -122,5 +86,61 @@ final class APICallsManager {
             }
         }
         task.resume()
+    }
+    
+    // MARK: - Public
+    
+    public func search(query: String, completion: @escaping(Result<SearchResponse, Error>) -> Void) {
+        guard let safeQuery = query.addingPercentEncoding(
+            withAllowedCharacters: .urlQueryAllowed) else { return }
+        
+        request(
+            url: url(for: .search, queryParams: ["q" : safeQuery]),
+            expecting: SearchResponse.self,
+            completion: completion
+        )
+    }
+    
+    public func news(for type: NewsViewController.NewsType, completion: @escaping (Result<[NewsModel], Error>) -> Void) {
+        switch type {
+            case .topStories:
+                request(
+                    url: url(for: .topStories, queryParams: ["category" : "general"]),
+                    expecting: [NewsModel].self,
+                    completion: completion
+                )
+            case .company(let symbol):
+                request(
+                    url: url(
+                        for: .companyNews,
+                           queryParams: [
+                            "symbol": symbol,
+                            "from": DateFormatter.newsDateFormatter.string(from: Constants.oneMonthBack),
+                            "to": DateFormatter.newsDateFormatter.string(from: Constants.today)
+                           ]
+                    ),
+                    expecting: [NewsModel].self,
+                    completion: completion
+                )
+                
+        }
+    }
+    
+    public func marketData(for symbol: String, numberOfDays: TimeInterval = 7, completion: @escaping (Result<MarketDataResponse, Error>) -> Void) {
+        let today = Date().addingTimeInterval(-(Constants.day))
+        let todayTimeInterval = Int(today.timeIntervalSince1970)
+        let prior = Constants.today.addingTimeInterval(-(Constants.day * numberOfDays))
+        let priorTimeInterval = Int(prior.timeIntervalSince1970)
+        let url = url(
+            for: .marketData,
+            queryParams: [
+                "symbol": symbol,
+                "resolution": "1",
+                "from": "\(priorTimeInterval)",
+                "to": "\(todayTimeInterval)"
+            ]
+        )
+        
+        request(url: url, expecting: MarketDataResponse.self, completion: completion)
     }
 }
