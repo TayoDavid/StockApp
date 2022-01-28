@@ -34,8 +34,13 @@ final class PersistenceManager {
         
     }
     
-    public func removeFromWatchList() {
-        
+    public func removeFromWatchList(symbol: String) {
+        var newSymbolsList = [String]()
+        userDefaults.set(nil, forKey: symbol)       // Clear out company name.
+        for item in watchList where item != symbol {
+            newSymbolsList.append(item)
+        }
+        userDefaults.set(newSymbolsList, forKey: Constants.watchlistKey)
     }
     
     // MARK: - Private
@@ -65,4 +70,5 @@ final class PersistenceManager {
             userDefaults.set(name, forKey: symbol)
         }
     }
+    
 }
