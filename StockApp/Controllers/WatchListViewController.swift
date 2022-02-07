@@ -26,6 +26,8 @@ class WatchListViewController: UIViewController {
     }()
     
     private var panel: FloatingPanelController?
+    
+    private var observer: NSObjectProtocol?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +37,7 @@ class WatchListViewController: UIViewController {
         fetchWatchlistData()
         setUpSearchController()
         setUpFloatingPanel()
+        setUpObserver()
     }
     
     override func viewWillLayoutSubviews() {
@@ -68,7 +71,7 @@ class WatchListViewController: UIViewController {
         
         let group = DispatchGroup()
         
-        for symbol in symbols {
+        for symbol in symbols where watchlistMap[symbol] == nil {
             group.enter()
             APICallsManager.shared.marketData(for: symbol) { [weak self] result in
                 defer {
@@ -152,6 +155,16 @@ class WatchListViewController: UIViewController {
         panel?.addPanel(toParent: self)
     }
 
+    private func setUpObserver() {
+        observer = NotificationCenter.default.addObserver(
+            forName: .didAddToWatchlist,
+            object: nil,
+            queue: .main
+        ) { _ in
+            self.viewModels.removeAll()
+            self.fetchWatchlistData()
+        }
+    }
 }
 
 extension WatchListViewController: UITableViewDelegate, UITableViewDataSource {
@@ -177,6 +190,14 @@ extension WatchListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let viewModel = viewModels[indexPath.row]
+        let detailVC = StockDetailsViewController(
+            symbol: viewModel.symbol,
+            companyName: viewModel.companyName,
+            candleStickData: watchlistMap[viewModel.symbol] ?? []
+        )
+        let navVC = UINavigationController(rootViewController: detailVC)
+        present(navVC, animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -236,13 +257,16 @@ extension WatchListViewController: UISearchResultsUpdating {
 }
 
 extension WatchListViewController: SearchResultsViewControllerDelegate {
-    func didSelect(searchResult result: SearchResult) {
+    func didSelect(searchResult: SearchResult) {
         navigationItem.searchController?.searchBar.resignFirstResponder()
         
         // Present stock details for given selection
-        let vc = StockDetailsViewController()
+        let vc = StockDetailsViewController(
+            symbol: searchResult.displaySymbol,
+            companyName: searchResult.description
+        )
         let navVC = UINavigationController(rootViewController: vc)
-        vc.title = result.description
+        vc.title = searchResult.description
         present(navVC, animated: true)
     }
 }

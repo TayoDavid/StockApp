@@ -8,7 +8,7 @@
 import UIKit
 
 protocol SearchResultsViewControllerDelegate: AnyObject {
-    func didSelect(searchResult result: SearchResult)
+    func didSelect(searchResult: SearchResult)
 }
 
 class SearchResultsViewController: UIViewController {

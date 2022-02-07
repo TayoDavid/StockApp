@@ -8,7 +8,7 @@
 import UIKit
 
 protocol NewsHeaderViewDelegate {
-    func newsHeaderViewDidTapAddButton(_ headerView: NewsHeaderView)
+    func didTapNewsHeaderViewAddButton(_ headerView: NewsHeaderView)
 }
 
 class NewsHeaderView: UITableViewHeaderFooterView {
@@ -29,7 +29,7 @@ class NewsHeaderView: UITableViewHeaderFooterView {
         return label
     }()
     
-    private let button: UIButton = {
+    let button: UIButton = {
        let button = UIButton()
         button.setTitle("+ Watchlist", for: .normal)
         button.backgroundColor = .systemBlue
@@ -67,6 +67,6 @@ class NewsHeaderView: UITableViewHeaderFooterView {
     }
     
     @objc private func didTapButton() {
-        delegate?.newsHeaderViewDidTapAddButton(self)
+        delegate?.didTapNewsHeaderViewAddButton(self)
     }
 }
