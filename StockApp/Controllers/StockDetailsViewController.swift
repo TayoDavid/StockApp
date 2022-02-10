@@ -17,6 +17,8 @@ class StockDetailsViewController: UIViewController {
     private var candleStickData: [CandleStick]
     private var newsStories: [NewsModel] = []
     
+    private var metrics: Metrics?
+    
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(NewsHeaderView.self, forHeaderFooterViewReuseIdentifier: NewsHeaderView.identifier)
@@ -70,11 +72,31 @@ class StockDetailsViewController: UIViewController {
     }
     
     private func fetchFinancialData() {
+        let group = DispatchGroup()
+        
         // Fetch candle stick if needed
+        if candleStickData.isEmpty {
+            group.enter()
+        }
         
         // Fetch financial metrics
-        
-        renderChart()
+        group.enter()
+        APICallsManager.shared.financialMetrics(for: symbol) { result in
+            defer {
+                group.leave()
+            }
+            switch result {
+                case .success(let response):
+                    let metrics = response.metric
+                    self.metrics = metrics
+                    print(metrics)
+                case .failure(let error):
+                    print(error)
+            }
+        }
+        group.notify(queue: .main) { [weak self] in
+            self?.renderChart()
+        }
     }
     
     private func fetchNews() {
@@ -92,7 +114,27 @@ class StockDetailsViewController: UIViewController {
     }
     
     private func renderChart() {
+        let headerView = StockDetailHeaderView(
+            frame: CGRect(
+                x: 0,
+                y: 0,
+                width: view.width,
+                height: (view.width * 0.7) + 100
+        ))
         
+        var viewModels = [MetricCollectionViewCell.ViewModel]()
+        if let metrics = metrics {
+            viewModels.append(.init(name: "52W High", value: "\(metrics.fiftyTwoWeekHigh)"))
+            viewModels.append(.init(name: "52W Low", value: "\(metrics.fiftyTwoWeekLow)"))
+            viewModels.append(.init(name: "52W Low Date", value: "\(metrics.fiftyTwoWeekLowDate)"))
+            viewModels.append(.init(name: "52W Return", value: "\(metrics.fiftyTwoWeekPriceReturnDaily)"))
+            viewModels.append(.init(name: "Beta", value: "\(metrics.beta)"))
+            viewModels.append(.init(name: "10D Avg Vol.", value: "\(metrics.tenDaysAverageTradingValue)"))
+        }
+        
+        headerView.configure(with: .init(data: [], showLegend: false, showAxis: false), metricViewModels: viewModels)
+        
+        tableView.tableHeaderView = headerView
     }
     
     @objc private func didTapCloseButton() {

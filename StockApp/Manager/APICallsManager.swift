@@ -29,6 +29,7 @@ final class APICallsManager {
         case topStories = "news"
         case companyNews = "company-news"
         case marketData = "stock/candle"
+        case financials = "stock/metric"
     }
     
     private enum APIError: Error {
@@ -142,5 +143,10 @@ final class APICallsManager {
         )
         
         request(url: url, expecting: MarketDataResponse.self, completion: completion)
+    }
+    
+    public func financialMetrics(for symbol: String, completion: @escaping (Result<FinancialMetricsResponse, Error>) -> Void) {
+        let url = url(for: .financials, queryParams: ["symbol" : symbol, "metric": "all"])
+        request(url: url, expecting: FinancialMetricsResponse.self, completion: completion)
     }
 }
