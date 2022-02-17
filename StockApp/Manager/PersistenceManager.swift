@@ -7,12 +7,17 @@
 
 import Foundation
 
+/// Object to manage saved caches
 final class PersistenceManager {
     
+    /// Singleton
     static let shared = PersistenceManager()
     
+    /// Reference to user defaults
     private let userDefaults: UserDefaults = .standard
     
+    
+    /// Constants
     private struct Constants {
         static let onboardedKey = "hasOnboarded"
         static let watchlistKey = "watchlist"
@@ -22,6 +27,7 @@ final class PersistenceManager {
     
     // MARK: - Public
     
+    /// Get user watch list
     public var watchList: [String] {
         if !hasOnboarded {
             userDefaults.setValue(true, forKey: Constants.onboardedKey)
@@ -30,10 +36,19 @@ final class PersistenceManager {
         return userDefaults.stringArray(forKey: Constants.watchlistKey) ?? []
     }
     
+    
+    /// Check if watch list contains item
+    /// - Parameter symbol: symbol to check
+    /// - Returns: Bool
     public func watchlistContains(symbol: String) -> Bool {
         return watchList.contains(symbol)
     }
     
+    
+    /// Add a symbol to watch list
+    /// - Parameters:
+    ///   - symbol: symbol to add
+    ///   - companyName: Company name for symbol being added
     public func addToWatchList(symbol: String, companyName: String) {
         var current = watchList
         current.append(symbol)
@@ -43,6 +58,8 @@ final class PersistenceManager {
         NotificationCenter.default.post(name: .didAddToWatchlist, object: nil)
     }
     
+    /// Remove item from watchlist
+    /// - Parameter symbol: symbol to remove
     public func removeFromWatchList(symbol: String) {
         var newSymbolsList = [String]()
         userDefaults.set(nil, forKey: symbol)       // Clear out company name.
@@ -54,10 +71,12 @@ final class PersistenceManager {
     
     // MARK: - Private
     
+    /// Check if user has been onboarded
     private var hasOnboarded: Bool {
         return userDefaults.bool(forKey: "hasOnboarded")
     }
     
+    /// Set up default watchlist items
     private func setUpDefaults() {
         let map: [String: String] = [
             "APPL": "Apple Inc",

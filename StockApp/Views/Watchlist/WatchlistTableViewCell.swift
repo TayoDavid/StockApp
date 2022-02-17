@@ -7,18 +7,24 @@
 
 import UIKit
 
+/// Delegate to notify of cell events
 protocol WatchlistTableViewCellDelegate: AnyObject {
     func didUpdateMaxWidth()
 }
 
-class WatchlistTableViewCell: UITableViewCell {
+/// Table cell for watchlist item
+final class WatchlistTableViewCell: UITableViewCell {
 
-    weak var delegate: WatchlistTableViewCellDelegate?
-    
+    /// Cell identifier
     static let identifier = String(describing: self)
     
+    /// Deleage instance
+    weak var delegate: WatchlistTableViewCellDelegate?
+    
+    /// Ideal cell height
     static let preferedHeight: CGFloat = 60
     
+    /// Watchlist table cell view model
     struct ViewModel {
         let symbol: String
         let companyName: String
@@ -30,18 +36,22 @@ class WatchlistTableViewCell: UITableViewCell {
     
     // MARK: - UI Views
     
+    /// symbol label
     private let symbolLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 17, weight: .medium)
         return label
     }()
     
+    /// Company name label
     private let companyNameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 15, weight: .regular)
+        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         return label
     }()
-
+    
+    /// Price label
     private let priceLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .right
@@ -49,6 +59,7 @@ class WatchlistTableViewCell: UITableViewCell {
         return label
     }()
     
+    /// Change in price label
     private let changeInPriceLabel: UILabel = {
         let label = UILabel()
         label.textColor = .label
@@ -59,14 +70,16 @@ class WatchlistTableViewCell: UITableViewCell {
         return label
     }()
     
-    // MiniChart View
+    /// MiniChart View
     private let miniChartView: StockChartView = {
         let chart = StockChartView()
         chart.clipsToBounds = true
+        chart.isUserInteractionEnabled = false
         return chart
     }()
     
     // MARK: - Overriden Functions
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.clipsToBounds = true
@@ -113,7 +126,7 @@ class WatchlistTableViewCell: UITableViewCell {
         companyNameLabel.frame = CGRect(
             x: separatorInset.left,
             y: symbolLabel.bottom,
-            width: companyNameLabel.width,
+            width: contentView.width - miniChartView.width - priceLabel.width - 40,
             height: companyNameLabel.height
         )
         
@@ -149,13 +162,16 @@ class WatchlistTableViewCell: UITableViewCell {
     }
     
     // MARK: - Public functions
+    /// Configure view
+    /// - Parameter viewModel: View viewModel
     public func configure(with viewModel: ViewModel) {
         symbolLabel.text = viewModel.symbol
         companyNameLabel.text = viewModel.companyName
         priceLabel.text = viewModel.price
         changeInPriceLabel.text = viewModel.changePercentage
         changeInPriceLabel.backgroundColor = viewModel.changeColor
-        // Configure chart
+        
+        miniChartView.configure(with: viewModel.chartViewModel)
     }
     
 }

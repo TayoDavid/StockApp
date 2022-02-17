@@ -8,11 +8,16 @@
 import UIKit
 import SDWebImage
 
-class NewsStoryTableViewCell: UITableViewCell {
-    
+/// News story tableview cell
+final class NewsStoryTableViewCell: UITableViewCell {
+        
+    /// Cell identifier
     static let identifier = String(describing: self)
+    
+    /// Cell height
     static let preferredHeight: CGFloat = 140
     
+    /// Cell viewModel
     struct ViewModel {
         let source: String
         let headline: String
@@ -27,6 +32,7 @@ class NewsStoryTableViewCell: UITableViewCell {
         }
     }
     
+    /// Source label
     private let sourceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -34,6 +40,7 @@ class NewsStoryTableViewCell: UITableViewCell {
         return label
     }()
     
+    /// Headline label
     private let headlineLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -44,6 +51,7 @@ class NewsStoryTableViewCell: UITableViewCell {
         return label
     }()
     
+    /// Date Label
     private let dateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -52,16 +60,19 @@ class NewsStoryTableViewCell: UITableViewCell {
         return label
     }()
     
+    /// Image for story
     private let storyImage: UIImageView = {
         let image = UIImageView()
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFill
-        image.backgroundColor = .tertiarySystemBackground
+        image.backgroundColor = .secondarySystemBackground
         image.layer.cornerRadius = 6
         image.layer.masksToBounds = true
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
+    
+    // MARK: - Initializers
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -107,11 +118,12 @@ class NewsStoryTableViewCell: UITableViewCell {
         storyImage.image = nil
     }
     
+    /// Configure view
+    /// - Parameter model: view viewModel
     public func configure(with model: ViewModel) {
         headlineLabel.text = model.headline
         sourceLabel.text = model.source
         dateLabel.text = model.dateString
         storyImage.sd_setImage(with: model.imageUrl, completed: nil)
-//        storyImage.setImage(with: model.imageUrl)
     }
 }

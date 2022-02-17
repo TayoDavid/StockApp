@@ -7,10 +7,14 @@
 
 import Foundation
 
+
+/// Object to manage api calls
 final class APICallsManager {
     
-    static let shared = APICallsManager()
+    /// Singleton
+    public static let shared = APICallsManager()
     
+    /// Constant
     private struct Constants {
         static let apiKey = "c7cahfqad3idhma676l0"
         static let sandboxApiKey = "sandbox_c7cahfqad3idhma676lg"
@@ -19,11 +23,12 @@ final class APICallsManager {
         static let day: TimeInterval = 3600 * 24
         static let today = Date()
         static let oneMonthBack = today.addingTimeInterval(-(Constants.day * 30))
-        
     }
 
     // MARK: - Private
     
+    
+    /// API Endpoint
     private enum Endpoint: String {
         case search
         case topStories = "news"
@@ -32,11 +37,17 @@ final class APICallsManager {
         case financials = "stock/metric"
     }
     
+    /// API Error
     private enum APIError: Error {
         case noDataReturned
         case invalidUrl
     }
     
+    /// Construct URL object for endpoint
+    /// - Parameters:
+    ///   - endpoint: Endpoint to construct
+    ///   - queryParams: Additional query parameter
+    /// - Returns: Optional URL
     private func url(for endpoint: Endpoint, queryParams: [String: String] = [:]) -> URL? {
         var urlString = Constants.baseUrl + endpoint.rawValue
         var queryItems = [URLQueryItem]()
@@ -59,6 +70,12 @@ final class APICallsManager {
         return URL(string: urlString)
     }
     
+    
+    /// Perform api calls
+    /// - Parameters:
+    ///   - url: URL to call
+    ///   - expectiong: Type we expect to decode to
+    ///   - completion: Callback for result
     private func request<T: Codable>(
         url: URL?,
         expecting: T.Type,
@@ -91,6 +108,11 @@ final class APICallsManager {
     
     // MARK: - Public
     
+    
+    /// Search for a company
+    /// - Parameters:
+    ///    - query: Query string (symbol or name)
+    ///    - completion: Callback for result
     public func search(query: String, completion: @escaping(Result<SearchResponse, Error>) -> Void) {
         guard let safeQuery = query.addingPercentEncoding(
             withAllowedCharacters: .urlQueryAllowed) else { return }
@@ -102,6 +124,11 @@ final class APICallsManager {
         )
     }
     
+    
+    /// Get news of type
+    /// - Parameters:
+    ///    - type: Company or top stories
+    ///    - completion: Callback for result
     public func news(for type: NewsViewController.NewsType, completion: @escaping (Result<[NewsModel], Error>) -> Void) {
         switch type {
             case .topStories:
@@ -127,6 +154,12 @@ final class APICallsManager {
         }
     }
     
+    
+    /// Get market data for a company
+    /// - Parameters:
+    ///    - symbol: Given symbol
+    ///    - numberOfDays: Number of days back from today
+    ///    - completion: Callback for result
     public func marketData(for symbol: String, numberOfDays: TimeInterval = 7, completion: @escaping (Result<MarketDataResponse, Error>) -> Void) {
         let today = Date().addingTimeInterval(-(Constants.day))
         let todayTimeInterval = Int(today.timeIntervalSince1970)
@@ -145,6 +178,12 @@ final class APICallsManager {
         request(url: url, expecting: MarketDataResponse.self, completion: completion)
     }
     
+    
+    
+    /// Get financial metrics
+    /// - Parameters:
+    ///   - symbol: Symbol or company
+    ///   - completion: Callback for result
     public func financialMetrics(for symbol: String, completion: @escaping (Result<FinancialMetricsResponse, Error>) -> Void) {
         let url = url(for: .financials, queryParams: ["symbol" : symbol, "metric": "all"])
         request(url: url, expecting: FinancialMetricsResponse.self, completion: completion)

@@ -7,26 +7,32 @@
 
 import UIKit
 
+/// Metric Table cell
 class MetricCollectionViewCell: UICollectionViewCell {
     
+    /// Cell identifier
+    static let identifier = String(describing: self)
+    
+    /// Cell viewModel
     struct ViewModel {
         let name: String
         let value: String
     }
     
+    /// Name label
     private let nameLabel: UILabel = {
         let label = UILabel()
         return label
     }()
     
+    /// Value label
     private let valueLabel: UILabel = {
         let label = UILabel()
         label.textColor = .secondaryLabel
         return label
     }()
     
-    static let identifier = String(describing: self)
-    
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.clipsToBounds = true
@@ -53,6 +59,8 @@ class MetricCollectionViewCell: UICollectionViewCell {
         valueLabel.text = nil
     }
     
+    /// Configure view
+    /// - Parameter viewModel: View's viewModel
     func configure(with viewModel: ViewModel) {
         nameLabel.text = viewModel.name
         valueLabel.text = viewModel.value

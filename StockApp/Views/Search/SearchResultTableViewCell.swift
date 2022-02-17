@@ -7,10 +7,13 @@
 
 import UIKit
 
-class SearchResultTableViewCell: UITableViewCell {
+/// Tableviece cell for search result
+final class SearchResultTableViewCell: UITableViewCell {
     
+    /// cell identifier
     static let identifier = String(describing: self)
 
+    // MARK: - INIT
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
     }

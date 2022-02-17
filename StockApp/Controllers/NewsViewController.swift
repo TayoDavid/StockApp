@@ -8,13 +8,18 @@
 import UIKit
 import SafariServices
 
-class NewsViewController: UIViewController {
+/// Controller to show news
+final class NewsViewController: UIViewController {
     
     // MARK: - Properties
+    
+    /// Collection of models
     private var stories = [NewsModel]()
     
+    /// instance of news type
     private let type: NewsType
     
+    /// primary news view
     let tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .clear
@@ -25,11 +30,12 @@ class NewsViewController: UIViewController {
         return tableView
     }()
     
-    // MARK: - News type enum
+    /// Type of news
     enum NewsType {
         case topStories
         case company(symbol: String)
         
+        /// title for given type
         var title: String {
             switch self {
                 case .topStories:
@@ -41,12 +47,16 @@ class NewsViewController: UIViewController {
     }
     
     // MARK: - Initializers
-    
+        
+    /// Create VC with typ
+    /// - Parameter type: news type
     init(type: NewsType) {
         self.type = type
         super.init(nibName: nil, bundle: nil)
     }
     
+    
+    /// Inherited init
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -64,13 +74,15 @@ class NewsViewController: UIViewController {
     }
     
     // MARK: - Private
-
+    
+    /// Sets up tableview
     private func setUpTableView() {
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
     }
     
+    /// Fetch news models
     private func fetchNews() {
         APICallsManager.shared.news(for: self.type) { result in
             switch result {
@@ -85,11 +97,15 @@ class NewsViewController: UIViewController {
         }
     }
     
+    /// Open a story in safari service
+    /// - Parameter url: url to open
     private func open(url: URL) {
         let vc = SFSafariViewController(url: url)
         present(vc, animated: true)
     }
 }
+
+// MARK: - UITableViewDelegate
 
 extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -108,7 +124,9 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        // Open news story
+        
+        HapticManager.shared.vibrateForSelection()
+        
         let story = stories[indexPath.row]
         guard let url = URL(string: story.url) else {
             presentFailedToOpenAlert()
@@ -128,7 +146,11 @@ extension NewsViewController: UITableViewDelegate, UITableViewDataSource {
         return NewsHeaderView.preferedHeight
     }
     
+    /// Present an alert to show an error occurred when opening story
     private func presentFailedToOpenAlert() {
+        
+        HapticManager.shared.vibrate(for: .error)
+        
         let alert = UIAlertController(
             title: "Unable to Open URL",
             message: "We were unable to open the article.",
